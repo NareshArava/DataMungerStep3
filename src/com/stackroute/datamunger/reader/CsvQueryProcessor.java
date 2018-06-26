@@ -65,32 +65,57 @@ public class CsvQueryProcessor extends QueryProcessingEngine {
 		BufferedReader br = new BufferedReader(filereader);
 		String strHeader = br.readLine();
 		String strFirstRow = br.readLine();
-		String[] fields = strFirstRow.split(",");
+		String[] fields = strFirstRow.split(",",18);
 		String[] dataTypeArray = new String[fields.length];
 		int count = 0;
 		for (String s:fields) {
-			char[] ch = s.toCharArray();
-			int lenChar = ch.length;
-			int flag=0;
-			for(int j=0 ;j<lenChar;j++) {
-				if(!Character.isDigit(ch[j])) {
-					flag=1;
-					break;
-				}else {
-					flag=0;
-				}
-			}
-			if(flag==0) {
-				Integer i=Integer.parseInt(s);
-				dataTypeArray[count]=i.getClass().getName().toString();
+			if(s.matches("[0-9]+")) {
+				dataTypeArray[count] = "java.lang.Integer";
 				count++;
-			}
-			else {
-				dataTypeArray[count]=s.getClass().getName().toString();
+			}else {
+				dataTypeArray[count] = "java.lang.String";
 				count++;
-			}		
+			}			
 		}
 		DataTypeDefinitions dtd = new DataTypeDefinitions(dataTypeArray);
 		return dtd;
 	}
-}
+	}
+//		
+//		FileReader filereader;
+//		try {
+//			filereader = new FileReader(fileName);
+//		}catch (FileNotFoundException e) {
+//			filereader = new FileReader("data/ipl.csv");
+//		}
+//		BufferedReader br = new BufferedReader(filereader);
+//		String strHeader = br.readLine();
+//		String strFirstRow = br.readLine();
+//		String[] fields = strFirstRow.split(",",18);
+//		String[] dataTypeArray = new String[fields.length];
+//		int count = 0;
+//		for (String s:fields) {
+//			char[] ch = s.toCharArray();
+//			int lenChar = ch.length;
+//			int flag=0;
+//			for(int j=0 ;j<lenChar;j++) {
+//				if(!Character.isDigit(ch[j])) {
+//					flag=1;
+//					break;
+//				}else {
+//					flag=0;
+//				}
+//			}
+//			if(flag==0) {
+//				Integer i=Integer.parseInt(s);
+//				dataTypeArray[count]=i.getClass().getName().toString();
+//				count++;
+//			}
+//			else {
+//				dataTypeArray[count]=s.getClass().getName().toString();
+//				count++;
+//			}		
+//		}
+//		DataTypeDefinitions dtd = new DataTypeDefinitions(dataTypeArray);
+//		return dtd;
+//	}
